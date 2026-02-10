@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/YOUR_USERNAME/gitops-repo.git
+    targetRevision: main
+    path: apps                # 👈 folder containing child Applications
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd          # root app lives in argocd namespace
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
