@@ -58,29 +58,34 @@ Make sure the following tools are installed:
 
 ```bash
 kind create cluster --name argocd-cluster
+```
 Verify cluster:
-kubectl get nodes
+```kubectl get nodes```
 2️⃣ Install Argo CD
-kubectl create namespace argocd
+```kubectl create namespace argocd
 kubectl apply -n argocd \
   -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 Wait for pods:
 kubectl get pods -n argocd
+```
 3️⃣ Access Argo CD UI
-Port-forward Argo CD server:
+```Port-forward Argo CD server:
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 Open in browser:
 https://localhost:8080
+```
 4️⃣ Login to Argo CD
 Get admin password:
-kubectl -n argocd get secret argocd-initial-admin-secret \
+```kubectl -n argocd get secret argocd-initial-admin-secret \
   -o jsonpath="{.data.password}" | base64 -d
+```
 Login via CLI:
-argocd login localhost:8080 --username admin --password <PASSWORD> --insecure
+```argocd login localhost:8080 --username admin --password <PASSWORD> --insecure
+```
 📦 Argo CD Application (GitOps)
 This project uses an Argo CD Application to deploy Kubernetes manifests stored in Git.
 Example Application Manifest
-apiVersion: argoproj.io/v1alpha1
+```apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: root-app
@@ -98,6 +103,7 @@ spec:
     automated:
       prune: true
       selfHeal: true
+```
 🔄 Sync Behavior
 Automated Sync: Changes in Git are automatically applied to the cluster
 Self-Heal: Manual changes in cluster are reverted
